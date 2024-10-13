@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sass": "node-sass -w scss/ -o css/ --recursive"
+    "build-css": "node-sass public/styles/scss/main.scss public/styles/style.css",
+    "watch-css": "node-sass --watch public/styles/scss/main.scss public/css/style.css"
   },
   "keywords": [],
   "author": "",
@@ -15,10 +17,11 @@
     "cookie-parser": "^1.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
-    "mongoose": "^8.7.1",
-    "node-sass": "^9.0.0"
+    "mongoose": "^8.7.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "node-sass": "^9.0.0",
+    "nodemon": "^3.1.7",
+    "sass": "^1.79.5"
   }
 }
