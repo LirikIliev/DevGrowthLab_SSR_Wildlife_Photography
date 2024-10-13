@@ -926,23 +926,22 @@ nav ul {
   nav ul li {
     display: inline-block;
     margin: 0 0.8em; }
+    nav ul li a {
+      text-decoration: none;
+      border-radius: 50%;
+      padding: 0.5em;
+      color: white;
+      text-transform: uppercase; }
+      nav ul li a:hover {
+        font-weight: normal;
+        height: 30px;
+        border-radius: 10%;
+        background-color: #364236; }
 
 nav h1 {
   color: white; }
 
-nav a {
-  text-decoration: none;
-  border-radius: 50%;
-  padding: 0.5em;
-  color: white;
-  text-transform: uppercase; }
-  nav a:hover {
-    font-weight: normal;
-    height: 30px;
-    border-radius: 10%;
-    background-color: #364236; }
-
-nav > img {
+nav > a > img {
   width: 110px;
   height: 100px;
   margin-left: 10px;
