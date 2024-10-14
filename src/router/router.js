@@ -9,7 +9,8 @@ const {
   getLoginController,
   getRegisterController,
   getLogoutController,
-  postRegisterController
+  postRegisterController,
+  postLoginController
 } = require('../controllers/autnControllers');
 const {
   getCreatePostController,
@@ -21,6 +22,7 @@ const {
 router.get('/', getHomeController);
 //* auth routes
 router.get('/login', getLoginController);
+router.post('/login', postLoginController);
 router.get('/register', getRegisterController);
 router.post('/register', postRegisterController);
 router.get('/logout', getLogoutController);

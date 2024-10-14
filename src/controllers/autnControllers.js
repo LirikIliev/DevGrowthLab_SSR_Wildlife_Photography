@@ -1,12 +1,29 @@
-const { createNewUser } = require("../services/authServices");
+const { createNewUser, userLogin } = require("../services/authServices");
 const { AUTH_PAGE_TITLE } = require("./config");
 
 exports.getLoginController = (req, res) => {
-  res.render('pages/login', { pageTitle: AUTH_PAGE_TITLE.LOGIN, error: '' });
+  res.render('pages/login', { pageTitle: AUTH_PAGE_TITLE.LOGIN, values: {}, error: '' });
+};
+
+exports.postLoginController = async (req, res, next) => {
+  try {
+    const user = await userLogin(req.body);
+    res.cookie('user', user);
+    res.cookie('isAuth', true);
+    res.status(200).redirect('/');
+  } catch (err) {
+    const errObj = {
+      errorObject: err,
+      path: "pages/login",
+      pageTitle: 'Login',
+      values: req.body
+    };
+    next(errObj);
+  }
 };
 
 exports.getRegisterController = (req, res) => {
-  res.render('pages/register', { pageTitle: AUTH_PAGE_TITLE.REGISTER, error: '' });
+  res.render('pages/register', { pageTitle: AUTH_PAGE_TITLE.REGISTER, values: {}, error: '' });
 };
 
 exports.postRegisterController = async (req, res, next) => {
@@ -14,7 +31,7 @@ exports.postRegisterController = async (req, res, next) => {
     const registerData = req.body;
     await createNewUser(registerData);
 
-    res.status(200).redirect('/logic');
+    res.status(200).redirect('/login');
   } catch (err) {
     const errObj = {
       errorObject: err,
