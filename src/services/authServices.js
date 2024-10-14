@@ -1,6 +1,10 @@
 const User = require('../models/user');
-exports.createNewUser = (userData) => {
+const { ERROR_MESSAGES } = require('./config');
+const { emptyFieldsChecker } = require('./helpers');
 
-  //! to set validation for fill fields!
+exports.createNewUser = (userData) => {
+  const hasEmptyField = emptyFieldsChecker(userData);
+  if (hasEmptyField) throw ERROR_MESSAGES.emptyField;
+
   return new User(userData).save();
-}
+};

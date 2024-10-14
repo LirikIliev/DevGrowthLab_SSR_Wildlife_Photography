@@ -3,6 +3,7 @@ const express = require('express');
 const router = require('./router/router');
 const { SERVER_PORT } = require('./config/config');
 const databaseConnection = require('./database/databaseConnection');
+const errorHandle = require('./middlewares/errorHandlerMiddleware');
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.set('views', 'src/views');
 app.use(express.urlencoded({ extended: true }));
 //* routes logic
 app.use(router);
+//* error handler middleware 
+app.use(errorHandle)
 //* database and server logic 
 const serverConnection = () => app.listen(SERVER_PORT, () => console.log(`Server is listening on port :  ${SERVER_PORT}`));
 databaseConnection(serverConnection)
