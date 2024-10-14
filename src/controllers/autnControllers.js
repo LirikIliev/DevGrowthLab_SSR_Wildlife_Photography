@@ -59,5 +59,7 @@ exports.postRegisterController = async (req, res, next) => {
 
 
 exports.getLogoutController = (req, res) => {
+  res.clearCookie('isAuth');
+  res.clearCookie('user');
   res.status(200).redirect('/');
 };
