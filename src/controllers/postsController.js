@@ -3,7 +3,12 @@ const { createPostService } = require("../services/postService");
 const { POSTS_PAGE_TITLES } = require("./config");
 
 exports.getCreatePostController = (req, res) => {
-  res.render('pages/create-post', { pageTitle: POSTS_PAGE_TITLES.CREATE_POSTS });
+  const { isAuth } = req.cookies;
+  res.render('pages/create-post', {
+    pageTitle: POSTS_PAGE_TITLES.CREATE_POSTS,
+    isAuth,
+    error: ''
+  });
 };
 
 exports.postCreatePostController = async (req, res, next) => {
@@ -24,10 +29,18 @@ exports.postCreatePostController = async (req, res, next) => {
 };
 
 exports.getAllPostsController = (req, res) => {
-  res.render('pages/all-posts', { pageTitle: POSTS_PAGE_TITLES.ALL_POSTS, error: '' });
+  const { isAuth } = req.cookies;
+  res.render('pages/all-posts', {
+    pageTitle: POSTS_PAGE_TITLES.ALL_POSTS,
+    isAuth,
+    error: ''
+  });
 };
 
 exports.getUserPostsController = (req, res) => {
-  res.render('pages/user-posts', { pageTitle: POSTS_PAGE_TITLES.MY_POSTS, error: '' });
-
+  res.render('pages/user-posts', {
+    pageTitle: POSTS_PAGE_TITLES.MY_POSTS,
+    isAuth,
+    error: ''
+  });
 };

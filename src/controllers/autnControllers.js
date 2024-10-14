@@ -2,7 +2,13 @@ const { createNewUser, userLogin } = require("../services/authServices");
 const { AUTH_PAGE_TITLE } = require("./config");
 
 exports.getLoginController = (req, res) => {
-  res.render('pages/login', { pageTitle: AUTH_PAGE_TITLE.LOGIN, values: {}, error: '' });
+  const { isAuth } = req.cookies;
+  res.render('pages/login', {
+    pageTitle: AUTH_PAGE_TITLE.LOGIN,
+    isAuth,
+    values: {},
+    error: ''
+  });
 };
 
 exports.postLoginController = async (req, res, next) => {
@@ -23,7 +29,14 @@ exports.postLoginController = async (req, res, next) => {
 };
 
 exports.getRegisterController = (req, res) => {
-  res.render('pages/register', { pageTitle: AUTH_PAGE_TITLE.REGISTER, values: {}, error: '' });
+  const { isAuth } = req.cookies;
+  res.render('pages/register',
+    {
+      pageTitle: AUTH_PAGE_TITLE.REGISTER,
+      isAuth,
+      values: {},
+      error: ''
+    });
 };
 
 exports.postRegisterController = async (req, res, next) => {

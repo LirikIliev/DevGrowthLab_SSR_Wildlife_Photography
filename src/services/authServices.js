@@ -9,8 +9,8 @@ exports.createNewUser = (userData) => {
   const { firstName, lastName, email, password, repeatPassword } = userData;
   const hasEmptyField = emptyFieldsChecker(userData);
   const hasRepeatAndPassDifferent = password !== repeatPassword;
-  if (hasEmptyField) throw ERROR_MESSAGES.emptyField;
-  if (hasRepeatAndPassDifferent) throw ERROR_MESSAGES.equalityOfPassword;
+  if (hasEmptyField) throw ERROR_MESSAGES.EMPTY_FIELD;
+  if (hasRepeatAndPassDifferent) throw ERROR_MESSAGES.EQUALITY_OF_PASSWORD;
 
   return new Promise((resolve, reject) =>
     bcrypt.hash(password, SALT_ROUNDS, (err, encryptedPassword) => {
@@ -25,16 +25,16 @@ exports.createNewUser = (userData) => {
 exports.userLogin = async (userData) => {
   const { email, password } = userData;
   const hasEmptyField = emptyFieldsChecker(userData);
-  if (hasEmptyField) throw ERROR_MESSAGES.emptyField;
+  if (hasEmptyField) throw ERROR_MESSAGES.EMPTY_FIELD;
   const user = await User.findOne({ email: email });
-  if (!user) throw ERROR_MESSAGES.userNotFound
+  if (!user) throw ERROR_MESSAGES.USER_NOT_FOUND;
 
   return new Promise((resolve, reject) =>
     bcrypt.compare(password, user.password, (err, isAuth) => {
-      if (err) return reject(ERROR_MESSAGES.userNotFound)
+      if (err) return reject(ERROR_MESSAGES.USER_NOT_FOUND)
 
       return resolve(user);
     })
-  )
+  );
 
 };

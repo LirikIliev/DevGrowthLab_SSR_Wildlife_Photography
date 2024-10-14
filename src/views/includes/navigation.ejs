@@ -18,13 +18,16 @@
         <ul class="menu">
           <li><a href="/">Home</a></li>
           <li><a href="/all-posts">All Posts</a></li>
-          <!-- Logged users -->
-          <li><a href="/create-new-post">Create Post</a></li>
-          <li><a href="/my-posts">Posts of {{email-of-user}}</a></li>
-          <li><a href="/logout">Logout</a></li>
-          <!-- Guest users -->
-          <li><a href="/register">Register</a></li>
-          <li><a href="/login">Login</a></li>
+          <% if(isAuth) {%>
+            <li><a href="/create-new-post">Create Post</a></li>
+            <li><a href="/my-posts">
+                "Posts" userEmail
+              </a></li>
+            <li><a href="/logout">Logout</a></li>
+            <%} else { %>
+              <li><a href="/register">Register</a></li>
+              <li><a href="/login">Login</a></li>
+              <% } %>
         </ul>
 
       </nav>
