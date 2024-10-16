@@ -1,0 +1,52 @@
+<%- include('../includes/header.ejs') %>
+  <%- include('../includes/navigation.ejs') %>
+    <section id="details-page">
+
+      <div class="main_card">
+        <div class="card_left">
+          <div class="card_datails">
+
+            <h1>
+              Title: <%=details.title%>
+            </h1>
+            <h3>
+              Created by an author:
+              <%=details.author.firstName%>
+                <%=details.author.lastName%>
+            </h3>
+            <div class="card_animal">
+              <p class="card-keyword">
+                Keyword: <%=details.keyword%>
+              </p>
+              <p class="card-location">
+                Location: <%=details.location%>
+              </p>
+              <p class="card-date">
+                Date: <%=details.location%>
+              </p>
+            </div>
+
+            <p class="disc">
+              Description: <%=details.description%>
+            </p>
+
+            <div class="social-btn">
+              <!-- Only for registered user and author of the post -->
+              <a href="#" class="edit-btn">Edit</a>
+              <a href="#" class="del-btn">Delete</a>
+              <!-- logged in users, who have not yet voted-->
+              <a href="#" class="vote-up">UpVote +1</a>
+              <a href="#" class="vote-down">DownVote -1</a>
+              <!-- logged in user who has already voted-->
+              <p class="thanks-for-vote">Thanks For Voting</p>
+
+            </div>
+          </div>
+        </div>
+        <div class="card_right">
+          <img src="<%=details.image%>" alt="image">
+        </div>
+      </div>
+
+    </section>
+    <%- include('../includes/footer.ejs') %>
