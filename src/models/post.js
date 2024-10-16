@@ -50,18 +50,24 @@ const postSchema = new Schema({
   }
 });
 
-
-postSchema.static.vote = function (userId) {
+postSchema.static.IncreaserVote = function (userId) {
   const isUserAlreadyVote = this.votes.some(uid => uid.toString() === userId.toString());
 
   if (isUserAlreadyVote) return;
-  return this.votes
+  this.votes
     .push(userId)
     .save();
+
+  const newRating = Number(this.postRating) += 1;
+  return this.postRating = newRating.save();
 };
 
-postSchema.static.ratingUpdate = function (rating) {
-  // const middleRatting =
-}
+postSchema.static.DecreaseVote = function (userId) {
+  const isUserVoted = this.votes.some(uid => uid.toString() === userId.toString());
+
+  if (!isUserVoted) return;
+  const filteredVote = this.votes.find(u_id => u_id.toString() !== userId.toString());
+  this.votes = filteredVote.save();
+};
 
 module.exports = model('Post', postSchema);

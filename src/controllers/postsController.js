@@ -39,6 +39,7 @@ exports.getAllPostsController = async (req, res, next) => {
       error: ''
     });
   } catch (err) {
+    console.error(err);
     next({ errorObject: err })
   }
 };
@@ -79,6 +80,7 @@ exports.getPostDetailService = async (req, res, next) => {
       error: ''
     });
   } catch (err) {
+    console.error(err);
     next({ errorObject: err });
   }
 };
