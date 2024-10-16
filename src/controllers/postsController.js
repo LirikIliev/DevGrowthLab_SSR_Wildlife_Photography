@@ -1,6 +1,6 @@
 const { Types: { ObjectId } } = require('mongoose')
-const { createPostService } = require("../services/postService");
-const { POSTS_PAGE_TITLES } = require("./config");
+const { createPostService, getPostsService, getPostService } = require("../services/postService");
+const { POSTS_PAGE_TITLES, POST_AUTHOR_POPULATE } = require("./config");
 
 exports.getCreatePostController = (req, res) => {
   const { isAuth } = req.cookies;
@@ -28,19 +28,52 @@ exports.postCreatePostController = async (req, res, next) => {
   }
 };
 
-exports.getAllPostsController = (req, res) => {
-  const { isAuth } = req.cookies;
-  res.render('pages/all-posts', {
-    pageTitle: POSTS_PAGE_TITLES.ALL_POSTS,
-    isAuth,
-    error: ''
-  });
+exports.getAllPostsController = async (req, res, next) => {
+  try {
+    const { isAuth } = req.cookies;
+    const posts = await getPostsService({});
+    res.render('pages/all-posts', {
+      pageTitle: POSTS_PAGE_TITLES.ALL_POSTS,
+      isAuth,
+      posts,
+      error: ''
+    });
+  } catch (err) {
+    next({ errorObject: err })
+  }
 };
 
-exports.getUserPostsController = (req, res) => {
-  res.render('pages/user-posts', {
-    pageTitle: POSTS_PAGE_TITLES.MY_POSTS,
-    isAuth,
-    error: ''
-  });
+exports.getUserPostsController = async (req, res, next) => {
+  try {
+    const { isAuth } = req.cookies;
+    const { user: { _id = "" } = '' } = req.cookies;
+    const userPosts = await getPostsService({ filterObj: { author: _id }, populateArr: POST_AUTHOR_POPULATE });
+
+    res.render('pages/user-posts', {
+      pageTitle: POSTS_PAGE_TITLES.MY_POSTS,
+      isAuth,
+      userPosts,
+      error: ''
+    });
+  } catch (err) {
+    console.error(err);
+    next({ errorObject: err });
+  }
+};
+
+exports.getPostDetailService = async (req, res, next) => {
+  try {
+    const { isAuth } = req.cookies;
+    const { postId } = req.params;
+    const details = await getPostService(postId, POST_AUTHOR_POPULATE);
+
+    res.render('pages/details', {
+      pageTitle: POSTS_PAGE_TITLES.POST_DETAILS,
+      isAuth,
+      details,
+      error: ''
+    });
+  } catch (err) {
+    next({ errorObject: err });
+  }
 };

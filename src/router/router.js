@@ -16,7 +16,8 @@ const {
   getCreatePostController,
   getAllPostsController,
   getUserPostsController,
-  postCreatePostController
+  postCreatePostController,
+  getPostDetailService
 } = require('../controllers/postsController');
 
 router.get('/', getHomeController);
@@ -31,6 +32,7 @@ router.get('/create-new-post', getCreatePostController);
 router.post('/create-new-post', postCreatePostController);
 router.get('/all-posts', getAllPostsController);
 router.get('/my-posts', getUserPostsController);
+router.get('/post-details/:postId', getPostDetailService);
 // not found routes
 router.get('/404', getNotFound);
 router.get('*', getNotFound);

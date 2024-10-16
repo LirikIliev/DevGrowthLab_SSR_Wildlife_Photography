@@ -1,7 +1,8 @@
 exports.POSTS_PAGE_TITLES = {
   MY_POSTS: 'My Posts',
   ALL_POSTS: 'All Posts',
-  CREATE_POSTS: 'Create Post'
+  CREATE_POSTS: 'Create Post',
+  POST_DETAILS: 'Details'
 };
 
 exports.AUTH_PAGE_TITLE = {
@@ -13,3 +14,7 @@ exports.MAIN_PAGE_TITLE = {
   HOME: 'Home',
   NOT_FOUND: 'Not Found'
 };
+
+exports.POST_POPULATE = ['author', 'votes'];
+exports.POST_AUTHOR_POPULATE = 'author';
+exports.POST_VOTES_POPULATE = 'votes';
