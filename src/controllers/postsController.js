@@ -65,11 +65,16 @@ exports.getPostDetailService = async (req, res, next) => {
   try {
     const { isAuth } = req.cookies;
     const { postId } = req.params;
+    const { user: { _id: userId = '' } = {} } = req.cookies;
     const details = await getPostService(postId, POST_AUTHOR_POPULATE);
+    const isUserAuthor = details.author?._id?.toString() === userId.toString();
+    const isUserVoted = details.votes.some(u_id => u_id?.toString() === userId.toString());
 
     res.render('pages/details', {
       pageTitle: POSTS_PAGE_TITLES.POST_DETAILS,
       isAuth,
+      isUserAuthor,
+      isUserVoted,
       details,
       error: ''
     });

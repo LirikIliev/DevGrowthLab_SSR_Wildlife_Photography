@@ -31,14 +31,18 @@
             </p>
 
             <div class="social-btn">
-              <!-- Only for registered user and author of the post -->
-              <a href="#" class="edit-btn">Edit</a>
-              <a href="#" class="del-btn">Delete</a>
-              <!-- logged in users, who have not yet voted-->
-              <a href="#" class="vote-up">UpVote +1</a>
-              <a href="#" class="vote-down">DownVote -1</a>
-              <!-- logged in user who has already voted-->
-              <p class="thanks-for-vote">Thanks For Voting</p>
+              <% if(isUserAuthor) {%>
+                <a href="#" class="edit-btn">Edit</a>
+                <a href="#" class="del-btn">Delete</a>
+                <% } %>
+                  <% if(isAuth && !isUserAuthor) {%>
+                    <% if(isUserVoted) {%>
+                      <a href="#" class="vote-down">DownVote -1</a>
+                      <p class="thanks-for-vote">Thanks For Voting</p>
+                      <% }else { %>
+                        <a href="#" class="vote-up">UpVote +1</a>
+                        <% } %>
+                          <% } %>
 
             </div>
           </div>
