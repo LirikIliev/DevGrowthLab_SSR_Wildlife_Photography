@@ -29,7 +29,6 @@
             <p class="disc">
               Description: <%=details.description%>
             </p>
-
             <div class="social-btn">
               <% if(isUserAuthor) {%>
                 <a href="#" class="edit-btn">Edit</a>
@@ -37,13 +36,15 @@
                 <% } %>
                   <% if(isAuth && !isUserAuthor) {%>
                     <% if(isUserVoted) {%>
-                      <a href="#" class="vote-down">DownVote -1</a>
+                      <a href="/post-details/decrease-vote/<%=details._id%>" class="vote-down">DownVote -1</a>
                       <p class="thanks-for-vote">Thanks For Voting</p>
                       <% }else { %>
-                        <a href="#" class="vote-up">UpVote +1</a>
+                        <a href="/post-details/increase-vote/<%=details._id%>" class="vote-up">UpVote +1</a>
                         <% } %>
                           <% } %>
-
+            </div>
+            <div class="social-btn">
+              <a href="/all-posts" class="vote-up">Back</a>
             </div>
           </div>
         </div>
@@ -52,5 +53,27 @@
         </div>
       </div>
 
+    </section>
+
+    <section id="votes">
+      <div class="vote-info">
+        <div class="card_left">
+          <div class="card_datails">
+            <h1>Votes</h1>
+            <div class="card_vote">
+              <p class="PV">
+                Total rating of votes: <%= details.postRating %>
+              </p>
+            </div>
+            <% if(details.postRating>0) {%>
+              <p class="disc">
+                People who voted for the post - <%= votedUsers %>
+              </p>
+              <% } else {%>
+                <p class="disc">People who voted for the post - No one has voted yet.</p>
+                <% } %>
+          </div>
+        </div>
+      </div>
     </section>
     <%- include('../includes/footer.ejs') %>

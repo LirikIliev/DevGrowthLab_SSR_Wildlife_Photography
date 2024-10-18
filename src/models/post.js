@@ -50,24 +50,27 @@ const postSchema = new Schema({
   }
 });
 
-postSchema.static.IncreaserVote = function (userId) {
-  const isUserAlreadyVote = this.votes.some(uid => uid.toString() === userId.toString());
+postSchema.statics.IncreaseVote = async function (postId, userId) {
+  const post = await this.findById(postId);
+  const isUserAlreadyVote = post.votes?.some(uid => uid?.toString() === userId?.toString());
 
-  if (isUserAlreadyVote) return;
-  this.votes
-    .push(userId)
-    .save();
+  if (isUserAlreadyVote || !post) return;
+  post.votes.push(userId);
+  post.postRating += 1;
 
-  const newRating = Number(this.postRating) += 1;
-  return this.postRating = newRating.save();
+  return post.save();
 };
 
-postSchema.static.DecreaseVote = function (userId) {
-  const isUserVoted = this.votes.some(uid => uid.toString() === userId.toString());
+postSchema.statics.DecreaseVote = async function (postId, userId) {
+  const post = await this.findById(postId);
+  const isUserVoted = post.votes?.some(u_id => u_id?.toString() === userId?.toString());
 
   if (!isUserVoted) return;
-  const filteredVote = this.votes.find(u_id => u_id.toString() !== userId.toString());
-  this.votes = filteredVote.save();
+  const filteredVote = post.votes?.find(u_id => u_id?.toString() !== userId?.toString());
+  post.votes = filteredVote;
+  post.postRating -= 1;
+
+  return post.save();
 };
 
 module.exports = model('Post', postSchema);

@@ -1,6 +1,16 @@
 const { Types: { ObjectId } } = require('mongoose')
-const { createPostService, getPostsService, getPostService } = require("../services/postService");
-const { POSTS_PAGE_TITLES, POST_AUTHOR_POPULATE } = require("./config");
+const {
+  createPostService,
+  getPostsService,
+  getPostService,
+  increasePostVote,
+  decreasePostVote
+} = require("../services/postService");
+const {
+  POSTS_PAGE_TITLES,
+  POST_VOTES_POPULATE,
+  POST_AUTHOR_POPULATE,
+} = require("./config");
 
 exports.getCreatePostController = (req, res) => {
   const { isAuth } = req.cookies;
@@ -67,18 +77,46 @@ exports.getPostDetailService = async (req, res, next) => {
     const { isAuth } = req.cookies;
     const { postId } = req.params;
     const { user: { _id: userId = '' } = {} } = req.cookies;
-    const details = await getPostService(postId, POST_AUTHOR_POPULATE);
+    const details = await getPostService(postId, [POST_AUTHOR_POPULATE, POST_VOTES_POPULATE]);
     const isUserAuthor = details.author?._id?.toString() === userId.toString();
-    const isUserVoted = details.votes.some(u_id => u_id?.toString() === userId.toString());
+    const isUserVoted = details.votes.some(u_id => u_id._id.toString() === userId.toString());
+    const votedUsers = details.votes.length > 0 ? details.votes?.map(user => user.email).join(', ') : '';
+    console.log(votedUsers)
 
     res.render('pages/details', {
       pageTitle: POSTS_PAGE_TITLES.POST_DETAILS,
       isAuth,
+      votedUsers,
       isUserAuthor,
       isUserVoted,
       details,
       error: ''
     });
+  } catch (err) {
+    console.error(err);
+    next({ errorObject: err });
+  }
+};
+
+exports.getIncreasePostVoteService = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const { user: { _id } = {} } = req.cookies;
+
+    await increasePostVote(postId, _id);
+    res.status(200).redirect(`/post-details/${postId}`);
+  } catch (err) {
+    console.error(err);
+    next({ errorObject: err });
+  }
+};
+
+exports.getDecreasePostVoteService = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const { user: { _id: userId = '' } = {} } = req.cookies;
+    await decreasePostVote(postId, userId);
+    res.status(200).redirect(`/post-details/${postId}`);
   } catch (err) {
     console.error(err);
     next({ errorObject: err });

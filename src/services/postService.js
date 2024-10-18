@@ -31,3 +31,6 @@ exports.getPostService = (id, populate) => {
 
   return Post.findById(id);
 };
+
+exports.increasePostVote = (postId, userId) => Post.IncreaseVote(postId, userId);
+exports.decreasePostVote = (postId, userId) => Post.DecreaseVote(postId, userId);
