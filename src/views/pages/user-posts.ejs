@@ -4,7 +4,7 @@
       <h1>My post.</h1>
 
       <div class="my-container">
-        <% if(userPosts) {%>
+        <% if(userPosts.length>0) {%>
           <% for (let post of userPosts) { %>
             <div class="my-card">
               <div class="card-header">
@@ -31,11 +31,11 @@
               </div>
             </div>
             <% } %>
-              <%} else {%>
+              <% }else { %>
                 <div class="no-posts">
                   <div class="no-posts-img">
                     <! /-- Do not forget to change the path to the image, and remove this comment -- />
-                    <img src="./static/img/bear.jpg" alt="image_nature_3">
+                    <img src="/static/img/bear.jpg" alt="image_nature_3">
                   </div>
                   <p class="no-offer">There are no own posts yet...</p>
                 </div>

@@ -14,6 +14,7 @@ exports.getLoginController = (req, res) => {
 exports.postLoginController = async (req, res, next) => {
   try {
     const user = await userLogin(req.body);
+    res.locals.userEmail = user.email || '';
     res.cookie('user', user);
     res.cookie('isAuth', true);
     res.status(200).redirect('/');

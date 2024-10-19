@@ -34,3 +34,18 @@ exports.getPostService = (id, populate) => {
 
 exports.increasePostVote = (postId, userId) => Post.IncreaseVote(postId, userId);
 exports.decreasePostVote = (postId, userId) => Post.DecreaseVote(postId, userId);
+exports.mostFamousAndVotedPost = (select) => {
+
+  if (select)
+    return Post
+      .find()
+      .select(select)
+      .sort({ postRating: -1 })
+      .limit(4);
+
+  return Post
+    .find()
+    .sort({ votes: -1 })
+    .limit(4);
+
+}

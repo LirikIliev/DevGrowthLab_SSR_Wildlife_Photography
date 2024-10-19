@@ -5,9 +5,9 @@ const postSchema = new Schema({
   title: {
     type: String,
     require: [true, 'Title is required to create a post.'],
-    minLength: [10, 'Title minimum symbol are three.'],
+    minLength: [5, 'Title minimum symbol are five.'],
   },
-  keyWord: {
+  keyword: {
     type: String,
     require: [true, 'Keyword is require to create a post.']
   },

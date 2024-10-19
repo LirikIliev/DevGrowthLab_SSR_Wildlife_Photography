@@ -1,4 +1,5 @@
-const { Types: { ObjectId } } = require('mongoose')
+const { Types: { ObjectId } } = require('mongoose');
+
 const {
   createPostService,
   getPostsService,
@@ -23,8 +24,9 @@ exports.getCreatePostController = (req, res) => {
 
 exports.postCreatePostController = async (req, res, next) => {
   try {
-    const postData = { ...req.body, author: new ObjectId('670c032cc3cb606150de6e55') };
-    createPostService(postData);
+    const { user: { _id: userId = '' } } = req.cookies;
+    const postData = { ...req.body, author: new ObjectId(userId) };
+    await createPostService(postData);
     res.status(200).redirect('/');
   } catch (err) {
     console.error(err);
@@ -81,7 +83,6 @@ exports.getPostDetailService = async (req, res, next) => {
     const isUserAuthor = details.author?._id?.toString() === userId.toString();
     const isUserVoted = details.votes.some(u_id => u_id._id.toString() === userId.toString());
     const votedUsers = details.votes.length > 0 ? details.votes?.map(user => user.email).join(', ') : '';
-    console.log(votedUsers)
 
     res.render('pages/details', {
       pageTitle: POSTS_PAGE_TITLES.POST_DETAILS,
@@ -102,8 +103,8 @@ exports.getIncreasePostVoteService = async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { user: { _id } = {} } = req.cookies;
-
     await increasePostVote(postId, _id);
+
     res.status(200).redirect(`/post-details/${postId}`);
   } catch (err) {
     console.error(err);
@@ -116,6 +117,7 @@ exports.getDecreasePostVoteService = async (req, res, next) => {
     const { postId } = req.params;
     const { user: { _id: userId = '' } = {} } = req.cookies;
     await decreasePostVote(postId, userId);
+
     res.status(200).redirect(`/post-details/${postId}`);
   } catch (err) {
     console.error(err);
