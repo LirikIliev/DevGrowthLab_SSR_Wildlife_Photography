@@ -14,9 +14,10 @@ const {
 } = require("./config");
 
 exports.getCreatePostController = (req, res) => {
-  const { isAuth } = req.cookies;
+  const { isAuth, user: { email: userEmail = '' } } = req.cookies;
   res.render('pages/create-post', {
     pageTitle: POSTS_PAGE_TITLES.CREATE_POSTS,
+    userEmail,
     isAuth,
     error: ''
   });
@@ -42,11 +43,12 @@ exports.postCreatePostController = async (req, res, next) => {
 
 exports.getAllPostsController = async (req, res, next) => {
   try {
-    const { isAuth } = req.cookies;
+    const { isAuth, user: { email: userEmail = '' } } = req.cookies;
     const posts = await getPostsService({});
     res.render('pages/all-posts', {
       pageTitle: POSTS_PAGE_TITLES.ALL_POSTS,
       isAuth,
+      userEmail,
       posts,
       error: ''
     });
@@ -58,13 +60,13 @@ exports.getAllPostsController = async (req, res, next) => {
 
 exports.getUserPostsController = async (req, res, next) => {
   try {
-    const { isAuth } = req.cookies;
-    const { user: { _id = "" } = '' } = req.cookies;
+    const { isAuth, user: { _id = '', email: userEmail = '' } = {} } = req.cookies;
     const userPosts = await getPostsService({ filterObj: { author: _id }, populateArr: POST_AUTHOR_POPULATE });
 
     res.render('pages/user-posts', {
       pageTitle: POSTS_PAGE_TITLES.MY_POSTS,
       isAuth,
+      userEmail,
       userPosts,
       error: ''
     });
@@ -76,9 +78,8 @@ exports.getUserPostsController = async (req, res, next) => {
 
 exports.getPostDetailService = async (req, res, next) => {
   try {
-    const { isAuth } = req.cookies;
+    const { isAuth, user: { _id: userId = '', email: userEmail = '' } = {} } = req.cookies;
     const { postId } = req.params;
-    const { user: { _id: userId = '' } = {} } = req.cookies;
     const details = await getPostService(postId, [POST_AUTHOR_POPULATE, POST_VOTES_POPULATE]);
     const isUserAuthor = details.author?._id?.toString() === userId.toString();
     const isUserVoted = details.votes.some(u_id => u_id._id.toString() === userId.toString());
@@ -87,6 +88,7 @@ exports.getPostDetailService = async (req, res, next) => {
     res.render('pages/details', {
       pageTitle: POSTS_PAGE_TITLES.POST_DETAILS,
       isAuth,
+      userEmail,
       votedUsers,
       isUserAuthor,
       isUserVoted,
