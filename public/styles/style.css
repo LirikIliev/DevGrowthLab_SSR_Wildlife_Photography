@@ -158,7 +158,6 @@ textarea {
   font-size: 27px;
   margin-bottom: 0.8em; }
 
-#back-btn,
 #create-btn,
 #edit-btn {
   border: 1px solid #0ab4b4;
@@ -579,64 +578,53 @@ span {
 * {
   font-family: 'Open Sans', sans-serif; }
 
-.loginSection {
-  background: url(https://source.unsplash.com/TV2gg2kZD1o/1600x800);
-  background-repeat: no-repeat;
-  background-position: 40% 60%;
-  margin: auto;
-  width: 720px;
-  height: 370px auto;
-  margin-top: 7em;
-  left: 35%;
-  text-align: center;
-  display: flex;
-  color: white;
-  box-shadow: 3px 10px 20px 5px rgba(0, 0, 0, 0.5); }
-
+.loginSection,
 .signupSection {
   background: url(https://source.unsplash.com/TV2gg2kZD1o/1600x800);
   background-repeat: no-repeat;
   background-position: 40% 60%;
-  margin: auto;
-  width: 740px;
-  height: 590px auto;
-  margin-top: 2em;
+  width: 720px;
+  height: 370px;
+  /* Height should not have 'auto' */
+  margin-top: 7em;
+  position: relative;
   left: 35%;
   text-align: center;
   display: flex;
   color: white;
-  box-shadow: 3px 10px 20px 5px rgba(0, 0, 0, 0.5); }
+  box-shadow: 3px 10px 20px 5px rgba(0, 0, 0, 0.5);
+  flex-wrap: wrap; }
+
+.signupSection {
+  width: 740px;
+  height: 590px;
+  margin-top: 2em; }
 
 .info {
   width: 250px;
   background: rgba(20, 20, 20, 0.8);
   padding: 55px 5px;
   border-right: 5px solid rgba(30, 30, 30, 0.8); }
-  .info > h2 {
-    padding-top: 5.5em;
-    font-weight: 300;
-    font-size: 23px; }
-  .info > p {
-    margin-top: 2px;
-    font-size: 18px; }
 
-.loginForm {
-  width: 580px;
-  padding: 30px 0;
-  background: rgba(20, 40, 40, 0.8);
-  transition: 0.2s; }
+.info h2 {
+  padding-top: 5.5em;
+  font-weight: 300;
+  font-size: 23px; }
 
+.info p {
+  margin-top: 2px;
+  font-size: 18px; }
+
+.loginForm,
 .signupForm {
-  width: 540px;
+  flex-grow: 1;
+  /* Ensures the form takes up remaining space */
   padding: 30px 0;
   background: rgba(20, 40, 40, 0.8);
   transition: 0.2s; }
-  .signupForm > h2 {
-    font-weight: 350;
-    font-size: 27px;
-    margin-bottom: 0.8em; }
 
-.loginForm > h2 {
+.loginForm h2,
+.signupForm h2 {
   font-weight: 350;
   font-size: 27px;
   margin-bottom: 0.8em; }
@@ -684,8 +672,30 @@ label {
   box-sizing: border-box;
   font-size: 17px;
   margin-bottom: -0.5em; }
-  label:nth-of-type(2) {
-    margin-top: 3em; }
+
+@media (max-width: 768px) {
+  .loginSection,
+  .signupSection {
+    width: 100%;
+    left: 0;
+    margin-top: 2em;
+    flex-direction: column;
+    height: auto; }
+  .info {
+    width: 100%;
+    border-right: none;
+    border-bottom: 5px solid rgba(30, 30, 30, 0.8);
+    padding: 10px 0; }
+  .loginForm,
+  .signupForm {
+    width: 100%; }
+  #join-btn,
+  #login-btn {
+    width: 90%;
+    padding: 10px 20px; }
+  .inputFields {
+    width: 90%;
+    max-width: 270px; } }
 
 #my-posts {
   display: block;

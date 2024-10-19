@@ -50,7 +50,7 @@ exports.postCreatePostController = async (req, res, next) => {
 
 exports.getAllPostsController = async (req, res, next) => {
   try {
-    const { isAuth, user: { email: userEmail = '' } } = req.cookies;
+    const { isAuth, user: { email: userEmail = '' } = {} } = req.cookies;
     const posts = await getPostsService({});
     res.render('pages/all-posts', {
       pageTitle: POSTS_PAGE_TITLES.ALL_POSTS,
