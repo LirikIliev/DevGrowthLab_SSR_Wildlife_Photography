@@ -1,11 +1,12 @@
 const { Types: { ObjectId } } = require('mongoose');
 
 const {
-  createPostService,
+  createUpdatePostService,
   getPostsService,
   getPostService,
-  increasePostVote,
-  decreasePostVote
+  increasePostVoteService,
+  decreasePostVoteService,
+  deletePostService
 } = require("../services/postService");
 const {
   POSTS_PAGE_TITLES,
@@ -14,27 +15,33 @@ const {
 } = require("./config");
 
 exports.getCreatePostController = (req, res) => {
-  const { isAuth, user: { email: userEmail = '' } } = req.cookies;
-  res.render('pages/create-post', {
-    pageTitle: POSTS_PAGE_TITLES.CREATE_POSTS,
-    userEmail,
-    isAuth,
-    error: ''
-  });
+  try {
+    const { isAuth, user: { email: userEmail = '' } = {} } = req.cookies;
+    res.render('pages/create-post', {
+      pageTitle: POSTS_PAGE_TITLES.CREATE_POSTS,
+      isAuth,
+      values: '',
+      userEmail,
+      error: ''
+    });
+  } catch (err) {
+    console.error(err);
+    next({ errorObject: err })
+  }
 };
 
 exports.postCreatePostController = async (req, res, next) => {
   try {
     const { user: { _id: userId = '' } } = req.cookies;
     const postData = { ...req.body, author: new ObjectId(userId) };
-    await createPostService(postData);
+    await createUpdatePostService({ postData });
     res.status(200).redirect('/');
   } catch (err) {
     console.error(err);
     const errObj = {
       errorObject: err,
       path: "pages/create-post",
-      pageTitle: 'Create Post',
+      pageTitle: POSTS_PAGE_TITLES.CREATE_POSTS,
       values: req.body
     };
     next(errObj);
@@ -76,7 +83,7 @@ exports.getUserPostsController = async (req, res, next) => {
   }
 };
 
-exports.getPostDetailService = async (req, res, next) => {
+exports.getPostDetailController = async (req, res, next) => {
   try {
     const { isAuth, user: { _id: userId = '', email: userEmail = '' } = {} } = req.cookies;
     const { postId } = req.params;
@@ -101,11 +108,11 @@ exports.getPostDetailService = async (req, res, next) => {
   }
 };
 
-exports.getIncreasePostVoteService = async (req, res, next) => {
+exports.getIncreasePostVoteController = async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { user: { _id } = {} } = req.cookies;
-    await increasePostVote(postId, _id);
+    await increasePostVoteService(postId, _id);
 
     res.status(200).redirect(`/post-details/${postId}`);
   } catch (err) {
@@ -114,11 +121,11 @@ exports.getIncreasePostVoteService = async (req, res, next) => {
   }
 };
 
-exports.getDecreasePostVoteService = async (req, res, next) => {
+exports.getDecreasePostVoteController = async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { user: { _id: userId = '' } = {} } = req.cookies;
-    await decreasePostVote(postId, userId);
+    await decreasePostVoteService(postId, userId);
 
     res.status(200).redirect(`/post-details/${postId}`);
   } catch (err) {
@@ -126,3 +133,52 @@ exports.getDecreasePostVoteService = async (req, res, next) => {
     next({ errorObject: err });
   }
 };
+
+exports.getEditPostController = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const { isAuth, user: { email: userEmail = '' } = {} } = req.cookies;
+    const post = await getPostService({ _id: postId });
+    res.render('pages/create-post', {
+      pageTitle: POSTS_PAGE_TITLES.EDIT_POSTS,
+      isAuth,
+      userEmail,
+      values: post,
+      error: ''
+    });
+  } catch (err) {
+    next({ errorObject: err })
+  }
+};
+
+exports.postEditPostController = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const postData = req.body;
+
+    await createUpdatePostService({ postId, postData });
+    res.redirect(`/post-details/${postId}`);
+  } catch (err) {
+    console.error(err);
+    const errObj = {
+      errorObject: err,
+      path: "pages/create-post",
+      pageTitle: POSTS_PAGE_TITLES.EDIT_POSTS,
+      values: req.body
+    };
+
+    next(errObj);
+  }
+};
+
+exports.getDeletePostController = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    await deletePostService(postId);
+
+    res.status(200).redirect('/all-posts');
+  } catch (err) {
+    console.error(err);
+    next({ errorObject: err });
+  }
+}

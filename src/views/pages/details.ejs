@@ -31,8 +31,8 @@
             </p>
             <div class="social-btn">
               <% if(isUserAuthor) {%>
-                <a href="#" class="edit-btn">Edit</a>
-                <a href="#" class="del-btn">Delete</a>
+                <a href="/edit-post/<%=details._id%>" class="edit-btn">Edit</a>
+                <a href="/delete-post/<%=details._id%>" class="del-btn">Delete</a>
                 <% } %>
                   <% if(isAuth && !isUserAuthor) {%>
                     <% if(isUserVoted) {%>

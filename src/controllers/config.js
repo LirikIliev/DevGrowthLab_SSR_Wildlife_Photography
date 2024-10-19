@@ -1,7 +1,8 @@
 exports.POSTS_PAGE_TITLES = {
   MY_POSTS: 'My Posts',
   ALL_POSTS: 'All Posts',
-  CREATE_POSTS: 'Create Post',
+  CREATE_POSTS: 'Create',
+  EDIT_POSTS: 'Edit',
   POST_DETAILS: 'Details'
 };
 

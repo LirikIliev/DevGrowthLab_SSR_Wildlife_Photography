@@ -50,6 +50,15 @@ const postSchema = new Schema({
   }
 });
 
+postSchema.pre('findOneAndUpdate', async function (next) {
+  const data = this.getUpdate();
+  const currentPost = await this.model.findById(this.getQuery());
+  const isDataChange = Object.keys(data).some(key => data[key].trim() === currentPost[key].trim());
+  if (isDataChange) throw { message: 'No changes on data to update!' }
+
+  next()
+})
+
 postSchema.statics.IncreaseVote = async function (postId, userId) {
   const post = await this.findById(postId);
   const isUserAlreadyVote = post.votes?.some(uid => uid?.toString() === userId?.toString());
