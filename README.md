@@ -1,85 +1,123 @@
-DevGrowthLab SSR Wildlife Photography Project
-Overview
-This project is a server-side rendered (SSR) application built with Node.js. It is designed to support a wildlife photography website. The application uses Express.js as the backend framework and EJS for rendering dynamic HTML pages. MongoDB is used for database management.
+# 🦁 DevGrowthLab SSR Wildlife Photography Project
 
-Features
-Server-Side Rendering: Uses EJS templates to deliver dynamic web pages.
-Authentication: Secure user authentication with bcrypt for password hashing and cookie-parser for session management.
-Styling: SCSS (compiled to CSS) for modular and maintainable styles.
-Database: Integration with MongoDB using Mongoose for schema-based data management.
-Installation
-Clone the repository:
+## 🌟 Overview
 
-bash
-Copy code
-git clone <repository-url>
-cd devgrowthlab_ssr_wildlife_photography
-Install dependencies:
+A **server-side rendered (SSR)** web application for showcasing stunning wildlife photography. Built with **Node.js**, this project features dynamic content rendering, secure authentication, and a clean, modern design.
 
-bash
-Copy code
-npm install
-Set up environment variables:
+---
 
-Create a .env file in the root directory.
-Add variables like MONGO_URI and SESSION_SECRET.
-Run the development server:
+## 🚀 Features
 
-bash
-Copy code
-npm start
-Build CSS:
+- **Server-Side Rendering**: Dynamic EJS templates for fast and SEO-friendly pages.
+- **Authentication**: Secure login system using `bcrypt` and session management with `cookie-parser`.
+- **Database Integration**: Powered by MongoDB and Mongoose for flexible and scalable data handling.
+- **Styling**: Built with SCSS for clean and maintainable CSS.
+- **Responsive Design**: Optimized for both desktop and mobile.
 
-bash
-Copy code
-npm run build-css
-Scripts
-Start the server:
+---
 
-bash
-Copy code
-npm start
-Uses nodemon to watch for changes in src/app.js.
+## 🛠 Installation
 
-Build SCSS:
+1. **Clone the Repository**:
 
-bash
-Copy code
-npm run build-css
-Compiles SCSS files from public/styles/scss/main.scss to public/styles/style.css.
+   ```bash
+   git clone <repository-url>
+   cd devgrowthlab_ssr_wildlife_photography
+   ```
 
-Dependencies
-Production:
+2. **Install Dependencies**:
 
-bcrypt: Secure password hashing.
-cookie-parser: Middleware to parse cookies.
-ejs: Template engine for server-side rendering.
-express: Backend framework.
-mongoose: ODM for MongoDB.
-Development:
+   ```bash
+   npm install
+   ```
 
-node-sass: SCSS compiler.
-nodemon: Monitors for file changes and restarts the server automatically.
-sass: Sass compiler.
-Folder Structure
-bash
-Copy code
-src/
-├── app.js # Main application entry point
-├── routes/ # Application routes
-├── models/ # Mongoose schemas
-├── controllers/ # Route logic
-public/
-├── styles/
-├── scss/ # SCSS files
-├── style.css # Compiled CSS file
-views/
-├── layouts/ # EJS layout templates
-├── pages/ # Individual page templates
-.env # Environment variables
-Future Improvements
-Add testing using Jest or Mocha.
-Integrate image upload functionality for wildlife photography.
-Optimize SCSS and CSS for performance.
-License
-This project is licensed under the ISC License.
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory with the following keys:
+
+   ```env
+   MONGO_URI=<your_mongo_connection_string>
+   SESSION_SECRET=<your_secret_key>
+   ```
+
+4. **Run the Application**:
+
+   ```bash
+   npm start
+   ```
+
+5. **Compile SCSS**:
+   ```bash
+   npm run build-css
+   ```
+
+---
+
+## 🧩 Folder Structure
+
+```
+📂 src
+ ┣ 📜 app.js            # Main server file
+ ┣ 📂 routes            # Application routes
+ ┣ 📂 models            # MongoDB schemas
+ ┣ 📂 controllers       # Business logic
+📂 public
+ ┣ 📂 styles
+ ┃ ┣ 📂 scss            # Source SCSS files
+ ┃ ┗ 📜 style.css       # Compiled CSS
+📂 views
+ ┣ 📂 layouts           # Layout templates
+ ┗ 📂 pages             # EJS page templates
+📜 .env                 # Environment variables
+```
+
+---
+
+## 📜 Scripts
+
+- **Start Development Server**:
+
+  ```bash
+  npm start
+  ```
+
+  Automatically restarts the server on file changes using `nodemon`.
+
+- **Compile SCSS**:
+  ```bash
+  npm run build-css
+  ```
+  Converts SCSS to CSS using `node-sass`.
+
+---
+
+## 📦 Dependencies
+
+| Package         | Version | Purpose                 |
+| --------------- | ------- | ----------------------- |
+| `bcrypt`        | ^5.1.1  | Password hashing        |
+| `cookie-parser` | ^1.4.7  | Parsing cookies         |
+| `ejs`           | ^3.1.10 | Templating engine       |
+| `express`       | ^4.21.1 | Web framework           |
+| `mongoose`      | ^8.7.1  | MongoDB object modeling |
+
+### Development Dependencies
+
+| Package     | Version | Purpose                |
+| ----------- | ------- | ---------------------- |
+| `node-sass` | ^9.0.0  | SCSS compilation       |
+| `nodemon`   | ^3.1.7  | Auto-restarting server |
+| `sass`      | ^1.79.5 | SCSS compilation       |
+
+---
+
+## 💡 Future Enhancements
+
+- 🌐 **Image Uploads**: Allow users to upload their own wildlife photos.
+- 📱 **Progressive Web App**: Add offline support and better performance.
+- 📊 **Analytics**: Integrate tracking for user interactions and photo views.
+
+---
+
+## 📄 License
+
+This project is licensed under the **ISC License**.
